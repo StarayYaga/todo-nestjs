@@ -7,6 +7,7 @@ import { DatabaseModule } from 'src/database/database.module';
 @Module({
   imports: [DatabaseModule],
   controllers: [TodoController],
-  providers: [TodoService, ...Task]
+  providers: [TodoService, ...Task],
+  exports: [TodoService]
 })
 export class TodoModule {}

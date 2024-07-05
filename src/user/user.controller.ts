@@ -24,4 +24,6 @@ export class UserController {
     getAll(){
         return this.UserService.getAllUser()
     }
+
+    
 }

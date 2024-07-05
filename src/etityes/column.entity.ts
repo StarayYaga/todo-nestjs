@@ -12,6 +12,15 @@ export class ColumnEnt{
     name: string;
 
     @ApiProperty({example:"Все задачи, которые нахотядся в процессе выполнения", description:"Описание колонки"})
+    @Column()
+    description: string
+
+    @ApiProperty({example:"1222", description:"id колонки"})
+    @Column()
+    projectId: number
+
+
+    @ApiProperty({example:"Все задачи, которые нахотядся в процессе выполнения", description:"Описание колонки"})
     @CreateDateColumn()
     createDate?:string
 }

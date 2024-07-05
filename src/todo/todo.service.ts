@@ -10,5 +10,8 @@ export class TodoService {
     ) {}
 
     async creteTask(){}
-    async getAllTasksOfProject(){}
+
+    async getAllTasksOfProject(id:number){
+        return await this.taskRepository.find({where: {projectId:id}})
+    }
 }

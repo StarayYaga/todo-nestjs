@@ -3,6 +3,9 @@ import { ProjectService } from './project.service';
 import { createProjectDto } from 'src/dto/createProject.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ProjectEnt } from 'src/etityes/project.entity';
+import { createColumnDto } from 'src/dto/createColumn.dto';
+import { ColumnEnt } from 'src/etityes/column.entity';
+
 
 @ApiTags("Работа с проектом")
 @Controller('project')
@@ -27,8 +30,20 @@ export class ProjectController {
     deleteProject(){}
     updateProject(){}
 
-    async createColumn(){}
+    @ApiOperation({summary: "Получение всех колонок"})
+    @ApiResponse({status: 200, type: ColumnEnt})
+    @Post("createColumn")
+    async createColumn(@Body() body: createColumnDto){
+        return await this.projectService.createColumn(body)
+    }
     async deleteColumn(){}
     async updateColumn(){}
-    async getAllColumnOfProject(){}
+
+    @ApiOperation({summary: "Получение всех колонок"})
+    @ApiResponse({status: 200, type: [ColumnEnt]})
+    @Post("columns")
+    async getAllColumns(@Body() body){
+        return await this.projectService.getAllColumn(body.projectId)
+    }
+    
 }
