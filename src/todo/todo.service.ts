@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { createTask } from 'src/dto/createTask.dto';
 import { TaskEnt } from 'src/etityes/todo.entity';
 import { Repository } from 'typeorm';
 
@@ -9,9 +10,13 @@ export class TodoService {
         private taskRepository: Repository<TaskEnt>,
     ) {}
 
-    async creteTask(){}
+    async creteTask(dto:createTask){
+        const task = await this.taskRepository.create(dto)
+        return await this.taskRepository.manager.save(task)
+    }
 
-    async getAllTasksOfProject(id:number){
-        return await this.taskRepository.find({where: {projectId:id}})
+
+    async getAllTasksOfProject(dto){
+        return await this.taskRepository.find({where: {projectId:dto.id}})
     }
 }

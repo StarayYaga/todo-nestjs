@@ -10,12 +10,12 @@ import { JWTAuthGuard } from 'src/auth/jwt-auth.guard';
 export class UserController {
     constructor(private UserService: UserService){}
     
-    @ApiOperation({summary: "Создание пользлвателя"})
-    @ApiResponse({status: 200, type: UserEnt})
-    @Post()
-    createUser(@Body() body: createUser){
-        return this.UserService.createUser(body)
-    }
+    // @ApiOperation({summary: "Создание пользлвателя"})
+    // @ApiResponse({status: 200, type: UserEnt})
+    // @Post()
+    // createUser(@Body() body: createUser){
+    //     return this.UserService.createUser(body)
+    // }
 
     @ApiOperation({summary: "Получение всех пользователей"})
     @ApiResponse({status: 200, type: [UserEnt]})
