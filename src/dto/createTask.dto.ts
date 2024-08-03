@@ -12,4 +12,6 @@ export class createTask{
     readonly columnId: number
     @ApiProperty({example:"1", description:"id проекта, к которому относится задача"})
     readonly projectId: number
+    @ApiProperty({example:"1", description:"Порядковый номер задачи"})
+    readonly serialNum: number
 }

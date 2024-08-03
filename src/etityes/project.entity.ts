@@ -1,6 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 import { UserEnt } from './user.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { ColumnEnt } from './column.entity';
+import { TaskEnt } from './todo.entity';
 
 @Entity()
 export class ProjectEnt {
@@ -18,6 +20,16 @@ export class ProjectEnt {
     description: string
 
     @ApiProperty({example:"14", description:"id пользователя, создавшего проект"})
-    @ManyToOne(() => UserEnt, (user) => user.id)
+    @Column()
+    @ManyToOne(()=> UserEnt, (userEnt)=>userEnt.id, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'ownerId', referencedColumnName: 'id' })
     ownerId: number
+
+    @OneToMany(()=>ColumnEnt, (columnEnt)=>columnEnt.projectId)
+    @JoinColumn()
+    columns: ColumnEnt[]
+
+    @OneToMany(()=>TaskEnt, (taskEnt)=>taskEnt.projectId)
+    @JoinColumn()
+    tasks: TaskEnt[]
 }

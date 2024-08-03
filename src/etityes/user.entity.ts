@@ -1,5 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany, JoinColumn } from 'typeorm';
+import { TaskEnt } from './todo.entity';
+import { ProjectEnt } from './project.entity';
+import { ColumnEnt } from './column.entity';
 
 @Entity()
 export class UserEnt {
@@ -22,4 +25,16 @@ export class UserEnt {
   @ApiProperty({example:"2024-07-01T08:56:04.552Z", description:"Время обновления создания пользователя "})
   @UpdateDateColumn()
   updateDate?:string
+
+  @OneToMany(()=>ProjectEnt, (projectEnt)=>projectEnt.ownerId)
+  @JoinColumn()
+  projects:ProjectEnt[]
+
+  @OneToMany(()=>ColumnEnt, (columnEnt)=>columnEnt.ownerId)
+  @JoinColumn()
+  columns: ColumnEnt[]
+
+  @OneToMany(()=>TaskEnt, (taskEnt)=>taskEnt.ownerId)
+  @JoinColumn()
+  tasks: TaskEnt[]
 }

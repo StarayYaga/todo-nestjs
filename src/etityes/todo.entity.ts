@@ -1,11 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne ,  } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn} from 'typeorm';
 import { UserEnt } from './user.entity';
 import { ProjectEnt } from './project.entity';
 import { ColumnEnt } from './column.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
+
+
 @Entity()
 export class TaskEnt {
+
     @ApiProperty({example:"1222", description:"Уникальный id задачи"})
     @PrimaryGeneratedColumn()
     id: number;
@@ -19,16 +22,26 @@ export class TaskEnt {
     description: string
 
     @ApiProperty({example:"14", description:"id пользователя, создавшего задачу"})
-    @ManyToOne(()=> UserEnt, (user)=>user.id)
+    @Column()
+    @ManyToOne(()=> UserEnt, (userEnt)=>userEnt.id, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'ownerId', referencedColumnName: 'id' })
     ownerId: number
 
     @ApiProperty({example:"3", description:"id колонки, к которой относится задача"})
-    @ManyToOne(()=> ProjectEnt, (column)=>column.id)
+    @Column()
+    @ManyToOne(()=> ColumnEnt, (columnEnt)=>columnEnt.id, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'columnId', referencedColumnName: 'id' })
     columnId: number
 
-    @ApiProperty({example:"1", description:"id проекта, к которому относится задача"})
-    @ManyToOne(()=>ColumnEnt, (project)=>project.id)
+    @ApiProperty({example:"1222", description:"id проекта"})
+    @Column()
+    @ManyToOne(()=>ProjectEnt, (projectEnt)=>projectEnt.id , { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'projectId', referencedColumnName: 'id' })
     projectId: number
+
+    @ApiProperty({example:"1", description:"Порядковый номер задачи"})
+    @Column()
+    serialNum: number
 
     @ApiProperty({example:"2024-07-01T08:56:04.552Z", description:"Дата создания задачи"})
     @CreateDateColumn()
@@ -37,5 +50,4 @@ export class TaskEnt {
     @ApiProperty({example:"2024-07-01T08:56:04.552Z", description:"Дата изменения задачи"})
     @UpdateDateColumn()
     updateDate?:string
-
 }
